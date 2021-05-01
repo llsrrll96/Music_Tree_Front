@@ -1,11 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
+import { Redirect } from 'react-router';
 import io from "socket.io-client";
 import Button from '@material-ui/core/Button'; // Button을 import 한다.
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import './Home.css'
-import { Redirect } from 'react-router';
+import './Home.css';
+import tree from '../images/tree.png';
+import Search from './Component/Search';
+
 
 let endPoint = "http://localhost:5000/prediction"
 let socket = io.connect(`${endPoint}`)
@@ -14,7 +17,9 @@ function Prediction() {
     let [question, setQuestion] = useState([0,'질문 입니까?'])
     let [socketId,setSocketId] = useState('')
     let [isStart, setIsStart] = useState(true)
-    let [isRedirect, setRedirect] = useState(false)
+    let [isRedirect, setIsRedirect] = useState(false)
+    let [isSearch, setIsSearch] = useState(false) //test
+
     let [songId, setSongId] = useState('0')
     const btnTexts = ['네','몰라요','아니요']
 
@@ -23,14 +28,14 @@ function Prediction() {
     //     getBtnText()
     // },[btnText.length]) //길이가 변할때 실행
     
-    //=================서버에서 데이터===================//
-    // //    # data = {
+    //=================서버에서 데이터 받아오는 함수===================//
+    // # data = {
     // #             "type" : "1",
     // #             "step": "2",
     // #             "q":"2번 질문입니다.",
     // #             'socketId': session['socketId']
     // #         }
-    
+    //type : 1 = 질문, 2 = 가사 , 3 = 결과
     const getServerData =()=>{
         socket.on("answer",ans=>{
             if (ans.type === "1") //객관식
@@ -41,7 +46,7 @@ function Prediction() {
                 setSocketId(ans.socketId)
             }else if(ans.type === "2")  //가사 찾기
             {
-
+                setIsSearch(true)
             }else if(ans.type === "3") //노래 결과
             {
                 // data = {
@@ -49,9 +54,8 @@ function Prediction() {
                 //     "songId" : "1234"
                 // }
                 setSongId(ans.songId)
-                setRedirect(true)
+                setIsRedirect(true)
             }
-            ans = ''
         })
     }
 
@@ -76,7 +80,6 @@ function Prediction() {
                 socketId : socket.id,
             }
         )
-
         //첫 문제 생성
         // data = {
         //     "step": "1",
@@ -90,7 +93,7 @@ function Prediction() {
         })
     }
 
-    //=================================//
+    //===============질문 생성==================//
     const createQuestionBox =(question)=>{
         if(isStart){
             connectServer()
@@ -124,6 +127,7 @@ function Prediction() {
         )
 
     }
+    //버튼생성
     const createButton =()=>{
         
         return (
@@ -148,7 +152,6 @@ function Prediction() {
         )
     }
 
-
     //=======================================//
     if(isRedirect){
         return <Redirect to= {{
@@ -156,10 +159,15 @@ function Prediction() {
             state : songId
         }}
         />
-    }else
+    }else if(isSearch){
+        return <Search />
+    }
     return (
         //JSX : HTML 대용
         <div className='main'>
+            <div className="search-tree-img ">
+                <img src={tree} alt =""/>
+            </div>
             <div className="question">
                 {createQuestionBox(question)}
             </div>
