@@ -4,7 +4,7 @@ import './Result.css'
 function Result(props)
 {
     let sondId = props.location.state
-    const songinfo={
+    const songinfo={ //더미 데이터
         title : "title",
         artist : "artist",
         album : "album",
@@ -12,6 +12,7 @@ function Result(props)
         lyric : "lyric"
     }
     
+    //값 없이 들어 왔을 경우
     useEffect(()=>{
         if (props.location.state === undefined){
             props.history.push("/");

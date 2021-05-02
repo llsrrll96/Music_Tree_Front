@@ -160,8 +160,8 @@ function Prediction() {
         }}
         />
     }else if(isSearch){
-        return <Search />
-    }
+        return <Search socketId = {socketId}/>
+    }else
     return (
         //JSX : HTML 대용
         <div className='main'>
