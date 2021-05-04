@@ -8,13 +8,13 @@ import tree from '../../images/tree.png';
 const Search = (socketId) => {
     let [lyrics, setLyrics] = useState('')
     let [isRedirect, setIsRedirect] = useState(false)
-    
+    let [songId, setSongId] = useState('')
     const send = ()=>{
         setLyrics(document.getElementById("lyrics-required").value)
         console.log(lyrics)
 
         //서버 전송
-        
+        setSongId('123')
         setIsRedirect(true)
     }
 
@@ -24,12 +24,12 @@ const Search = (socketId) => {
     if(isRedirect){
         return <Redirect to= {{
             pathname: "/Result",
-            state : "11"//test
+            state : songId//test
         }}
         />
     }else
     return (
-        <div className="Search-flex-container">
+        <div className="search-flex-container">
             <div className="search-tree-img">
                 <img src={tree} alt =""/>
             </div>
@@ -41,7 +41,7 @@ const Search = (socketId) => {
                        
                     </Box>
 
-                    <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                    <Box className="search-box" display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
                         <div className="search-send-button">
                             <Button id='sendBtn' onClick={send} variant="outlined" color="primary">
                                 보내기
