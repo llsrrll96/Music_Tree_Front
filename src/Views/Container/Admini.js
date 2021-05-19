@@ -81,11 +81,11 @@ function Admini ()  {
     //수정 버튼
     const handleModifyButtonClick = (selectedLowForModify) =>{
         console.log(selectionModel)
-        if ((selectionModel && selectionModel.length) == 1){ //수정 항목 보내는 부분
-            console.log(selectedLowForModify) //선택된값
-            
+        if ((selectionModel && selectionModel.length) === 1){ //수정 항목 보내는 부분
+            console.log(selectedLowForModify) //선택된 값
+            console.log(selectedLowForModify.data)            
             async function postModifySongs(){  
-                await axios.post('http://127.0.0.1:5000/admin/modify',selectedLowForModify)
+                await axios.post('http://127.0.0.1:5000/admin/modify',selectedLowForModify.data)
                 .then( function(result) { //서버에서 온 값
                     console.log(result.data)
                     alert(result.data.result)
