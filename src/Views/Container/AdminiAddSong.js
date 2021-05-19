@@ -1,9 +1,10 @@
 import React from 'react'
+import { Button } from 'semantic-ui-react'
 
 const AdminiAddSong = () => {
     return (
         <div>
-            노래 추가
+            <Button primary>추가하기</Button>
         </div>
     )
 }

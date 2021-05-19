@@ -33,12 +33,14 @@ function Admini ()  {
     const [editrowsMedelKey, setEditRowsModelKey] = useState('') //key
     const [selectionModel, setSelectionModel] = useState([])            //선택된 id
     const [selectedLowForModify, setSelectedLowForModify] = useState({}) //수정 선택된 값
+    const [pageNum , setPageNum] = useState(1)
+    let pageNumber = 1
 
     useEffect(() => {
         async function fetchSongPosts(){
             setLoading(true);    
             console.log('로딩')        
-            await axios.get('http://127.0.0.1:5000/song-info')
+            await axios.get('http://127.0.0.1:5000/song-info?index=' + pageNum)
             .then((songs)=>{
                 setSongPosts(songs.data);
                 setLoading(false);
@@ -46,8 +48,22 @@ function Admini ()  {
         }
         fetchSongPosts()
     },[]);
+
+    const loadSongPost = (num)=>{
+        async function fetchSongPosts(){
+            setLoading(true);    
+            console.log('로딩')        
+            await axios.get('http://127.0.0.1:5000/song-info?index=' + num)
+            .then((songs)=>{
+                setSongPosts(songs.data);
+                setLoading(false);
+            });
+        }
+        fetchSongPosts()
+    }
     
-    //수정할 값 set
+    
+    //수정할 값 셋팅 하는 함수
     //선언한 함수 계속 사용해야 할때 = useCallback
     const handleEditRowModelChange = useCallback(
         (params) => {
@@ -97,7 +113,27 @@ function Admini ()  {
         }else{
             alert("한 행씩 수정해 주세요")
         }
-
+    }
+    //페이지 Down 버튼
+    const handleChangePageDownButtonClick = () =>{
+        if(pageNum > 1)
+        {
+            //pageNumber -= 50
+            loadSongPost(pageNum - 50)
+            setPageNum(pageNum - 50)
+            console.log("페이지 변경: "+ pageNum)
+        }else{
+            console.log(pageNum)
+            alert("내릴 수 없습니다.")
+        }
+        
+    }
+    //페이지 Up 버튼
+    const handleChangePageUpButtonClick = ()=>{
+        //pageNumber += 50
+        loadSongPost(pageNum + 50)
+        setPageNum(pageNum + 50)
+        console.log("페이지 변경: "+ pageNum)
     }
 
     //row 선택
@@ -164,7 +200,29 @@ function Admini ()  {
                             >
                                 삭제하기
                             </Button>
-                        </div> 
+                        </div>
+                        <div className = "changePageDownbtn">
+                            <Button
+                                onClick={e=>{
+                                    e.stopPropagation()
+                                    handleChangePageDownButtonClick()
+                                }}
+                                variant = "outlined"
+                            >
+                                 - 페이지 다운
+                            </Button>
+                        </div>
+                        <div className = "changePageUpbtn">
+                            <Button
+                                onClick={e=>{
+                                    e.stopPropagation()
+                                    handleChangePageUpButtonClick()
+                                }}
+                                variant = "outlined"
+                            >
+                                + 페이지 업
+                            </Button>
+                        </div>
                     </div>
                 </div>
 
