@@ -1,0 +1,67 @@
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 1s linear infinite; 
+    /* Safari */
+    animation: spin 1s linear infinite;
+  }
+
+* {
+    box-sizing: border-box; 
+}
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.admini-header{
+    margin-left: 150px;
+    background-color: #333;
+    padding: 5px 0px 5px 20px;
+    color :#ddd
+}
+
+/* Style the side navigation */
+.admini-sidebar {
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+}
+/* Side navigation links */
+.admini-sidebar p {
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+/* Change color on hover */
+.admini-sidebar p:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.admini-content{
+    margin-left: 150px;
+    padding : 15px, 30px;
+    margin : 10px, 10px;
+}
+ .admini-buttons{
+    background: rgb(122, 122, 122);
+    border-radius: 15px;
+ }
+  .modifybtn{
+        display: inline-block;
+        padding: 15px 15px;
+  }
+  .deletebtn{
+      display: inline-block;
+  }

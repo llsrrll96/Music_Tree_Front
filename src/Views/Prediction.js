@@ -68,6 +68,7 @@ function Prediction() {
             "btnValue" : btnValue,
             "socketId" : socketId
         }
+        
         socket.emit("answer", sendData)
         //값을 가져오고 갱신한다.
         getServerData()
