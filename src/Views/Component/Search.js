@@ -33,6 +33,7 @@ const Search = (socketId) => {
             <div className="search-tree-img">
                 <img src={tree} alt =""/>
             </div>
+            {console.log(socketId)}
 
             <div className="search-input-box">
                 <form className="input" noValidate autoComplete="off">

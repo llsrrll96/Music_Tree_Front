@@ -1,12 +1,27 @@
 import React, {useState, useEffect,useCallback} from 'react'
-import axios from 'axios'
+import axios from 'axios';
 import Sidebar from "./Sidebar";
-
 import { DataGrid } from '@material-ui/data-grid';
 import Button from '@material-ui/core/Button';
-import { Header } from 'semantic-ui-react'
-import './Admin.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import { Header } from 'semantic-ui-react';
 
+import './Admin.css';
+import { withStyles } from '@material-ui/core/styles';
+import { purple } from '@material-ui/core/colors';
+
+//custom button
+const ColorButton = withStyles((theme) => ({
+    root: {
+      color: theme.palette.getContrastText(purple[500]),
+      backgroundColor: purple[500],
+      '&:hover': {
+        backgroundColor: purple[700],
+      },
+    },
+  }))(Button);
+//
 const column =[
     {field: 'id',headerName:'ID' },
     {field: 'title', headerName:'제목' ,width:130},
@@ -34,7 +49,6 @@ function Admini ()  {
     const [selectionModel, setSelectionModel] = useState([])            //선택된 id
     const [selectedLowForModify, setSelectedLowForModify] = useState({}) //수정 선택된 값
     const [pageNum , setPageNum] = useState(1)
-    let pageNumber = 1
 
     useEffect(() => {
         async function fetchSongPosts(){
@@ -176,52 +190,58 @@ function Admini ()  {
                     </div>
 
                     <div className="admini-buttons">
-                        <div className="modifybtn"> 
+                        <div className="btn">
                             <Button 
                                 onClick={e => {
                                     e.stopPropagation()
                                     handleModifyButtonClick(selectedLowForModify)
                                 }}
                                 color="primary"
-                                variant="outlined"
+                                variant="contained"
+                                startIcon={<SaveIcon/>}
+                                
                             >
                                 수정하기
                             </Button>
-                        </div>       
-
-                        <div className="deletebtn">
+                        </div>
+                        <div className="btn">
                             <Button 
                                 onClick={e => {
                                     e.stopPropagation()
                                     handleDeleteButtonClick()
                                 }}
                                 color="secondary"
-                                variant="outlined"
+                                variant="contained"
+                                startIcon={<DeleteIcon/>}
                             >
                                 삭제하기
                             </Button>
                         </div>
-                        <div className = "changePageDownbtn">
-                            <Button
+                        <div className="btn">
+                            <ColorButton
                                 onClick={e=>{
                                     e.stopPropagation()
                                     handleChangePageDownButtonClick()
                                 }}
-                                variant = "outlined"
+                                color="purple"
+                                variant = "contained"
+                                className = "changePageDownbtn"
                             >
-                                 - 페이지 다운
-                            </Button>
+                                 ◀ 이전 페이지
+                            </ColorButton>
                         </div>
-                        <div className = "changePageUpbtn">
-                            <Button
+                        <div className="btn">
+                            <ColorButton
                                 onClick={e=>{
                                     e.stopPropagation()
                                     handleChangePageUpButtonClick()
                                 }}
-                                variant = "outlined"
+                                color="purple"
+                                variant = "contained"
+                                className = "changePageUpbtn"
                             >
-                                + 페이지 업
-                            </Button>
+                                다음 페이지 ▶
+                            </ColorButton>
                         </div>
                     </div>
                 </div>

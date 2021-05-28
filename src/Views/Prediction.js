@@ -9,7 +9,6 @@ import './Home.css';
 import tree from '../images/tree.png';
 import Search from './Component/Search';
 
-
 let endPoint = "http://localhost:5000/prediction"
 let socket = io.connect(`${endPoint}`)
 
@@ -19,31 +18,27 @@ function Prediction() {
     let [isStart, setIsStart] = useState(true)
     let [isRedirect, setIsRedirect] = useState(false)
     let [isSearch, setIsSearch] = useState(false) //test
-
     let [songId, setSongId] = useState('0')
-    const btnTexts = ['네','몰라요','아니요']
-
+    //let [testbtn,setTestbtn] = useState(["남성", "여성", "혼성"])
     //문제를 바꿀때 사용
     // useEffect(()=>{
     //     getBtnText()
     // },[btnText.length]) //길이가 변할때 실행
     
     //=================서버에서 데이터 받아오는 함수===================//
-    // # data = {
-    // #             "type" : "1",
-    // #             "step": "2",
-    // #             "q":"2번 질문입니다.",
-    // #             'socketId': session['socketId']
-    // #         }
+    //     data = {
+    //         "type": "1",
+    //         "step": step,  # 1: 성별, 2: 활동유형, 3:장르, 4:년도, 5:OST 여부, 6:피처링 여부, 7:분위기, 8:관련성
+    //         "question_type_name": question_type_name[step-1],  #질문에 나올 질문할 속성 명, "성별"
+    //         "question_type": question_type[step-1]  #답변으로 표시될 노래 속성값들 ,  ["남성","여성"]
+    // }
     //type : 1 = 질문, 2 = 가사 , 3 = 결과
     const getServerData =()=>{
         socket.on("answer",ans=>{
+            console.log('answer type: '+ans.type)
             if (ans.type === "1") //객관식
             {
-                console.log('answer type: '+ans.type)
-                console.log('answer socketId: '+ans.socketId)
                 setQuestion(ans)
-                setSocketId(ans.socketId)
             }else if(ans.type === "2")  //가사 찾기
             {
                 setIsSearch(true)
@@ -68,29 +63,36 @@ function Prediction() {
             "btnValue" : btnValue,
             "socketId" : socketId
         }
-        
         socket.emit("answer", sendData)
+        
         //값을 가져오고 갱신한다.
         getServerData()
     }
     
     //===============서버와 소켓 연결==================//
     const connectServer =()=>{
+        setSocketId(socket.id)
         socket.emit("join",
             {
                 socketId : socket.id,
             }
         )
         //첫 문제 생성
-        // data = {
-        //     "step": "1",
-        //     "q":"1번 질문입니다.",
-        //     'socketId': session['socketId']
-        // }
+    //     data = {
+    //         "type": "1",
+    //         "step": step,  # 1: 성별, 2: 활동유형, 3:장르, 4:년도, 5:OST 여부, 6:피처링 여부, 7:분위기, 8:관련성
+    //         "question_type_name": question_type_name[step-1],  #질문에 나올 질문할 속성 명, "성별"
+    //         "question_type": question_type[step-1]  #답변으로 표시될 노래 속성값들 ,  ["남성","여성"]
+    // }
         socket.on("response",v=>{
-            console.log('data '+ v.socketId)
-            setQuestion(v)
-            setSocketId(v.socketId)
+            console.log('소켓 '+ v.socketId)
+        })
+
+        //질문생성
+        socket.emit("question", {socketId : socketId})
+        socket.on("response",data=>{
+            setQuestion(data)
+            console.log('버튼 ' + data.question_type)
         })
     }
 
@@ -100,11 +102,11 @@ function Prediction() {
             connectServer()
             setIsStart(false)
         }
+
         return(
             <div className="question-body" >
                 <Grid
                 container
-                direction="column"
                 justify="center"
                 alignItems="center"
                 >
@@ -117,7 +119,7 @@ function Prediction() {
                             </Box>
                             <Box p={1}>
                                 <p className="question-text" width={1/4}>
-                                    {question.q}
+                                    {question.question_type_name}
                                 </p>
                             </Box>
                         </Box>
@@ -129,29 +131,19 @@ function Prediction() {
 
     }
     //버튼생성
-    const createButton =()=>{
-        
-        return (
-            <div className="buttons">
-                <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="center"
-                >
-                    <Button onClick={()=>sendToServer('1')} value='1' style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined">
-                        {btnTexts[0]}
-                    </Button>
-                    <Button onClick={()=>sendToServer('2')} value='2' style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined" color="primary">
-                        {btnTexts[1]}
-                    </Button>
-                    <Button onClick={()=>sendToServer('3')} style={{maxWidth:'300px',minWidth:'300px'}} value='3' variant="outlined" color="secondary">
-                        {btnTexts[2]}
-                    </Button>
-                </Grid>
-            </div>
-        )
-    }
+    const createButton =(buttons)=> //배열 형식
+        buttons && buttons.map(btn => {
+        return(<Button onClick={()=>sendToServer(btn)} value='btn' style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined">
+                    {btn}
+                </Button>
+        )})
+
+    // const buttonList = testbtn && testbtn.map(btn => {
+    //         return(<Button onClick={()=>sendToServer(btn)} value='btn' style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined">
+    //             {btn}
+    //         </Button>)
+    // })
+    
 
     //=======================================//
     if(isRedirect){
@@ -173,7 +165,16 @@ function Prediction() {
                 {createQuestionBox(question)}
             </div>
             <div className="flex-container">
-                {createButton()}
+                <div className="buttons">
+                    <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    >   
+                        {createButton(question.question_type)}
+                    </Grid>
+                </div>
             </div>
         </div>
     );

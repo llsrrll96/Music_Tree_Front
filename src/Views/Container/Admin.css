@@ -54,14 +54,20 @@ body {
     padding : 15px, 30px;
     margin : 10px, 10px;
 }
- .admini-buttons{
-    background: rgb(122, 122, 122);
+.admini-buttons{
+    background: rgb(230, 230, 230);
     border-radius: 15px;
- }
-  .modifybtn{
-        display: inline-block;
-        padding: 15px 15px;
-  }
-  .deletebtn{
-      display: inline-block;
-  }
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+}
+.btn{
+    display: inline-block;
+    margin-left: 20px;
+}
+.changePageDownbtn{
+    background-color: #008CBA;
+}
+.changePageUpbtn{
+    background-color: #008CBA;
+}
