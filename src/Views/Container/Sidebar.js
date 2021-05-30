@@ -9,8 +9,8 @@ function Sidebar() {
     const pathName = useLocation().pathname;
   
     const menus = [
-      { name: "노래추가", path:"/admini/add"},
-      { name: "노래목록", path:"/admini"}
+      { name: "노래추가", path:"/admin/add"},
+      { name: "노래목록", path:"/admin"}
     ];
   
     return (

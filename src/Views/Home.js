@@ -4,7 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import {Link} from 'react-router-dom';
 import tree from '../images/tree.png';
 import './Home.css';
-   
+
+
 function Home()
 {
     return (
@@ -18,13 +19,12 @@ function Home()
                 justify="center"
                 alignItems="center"
                 >
-                    <Link to="/prediction">
+                    <Link to="/prediction2">
                         <Button style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined">
                             Start
                         </Button>
                     </Link>
             </Grid>
-        
         </div>
 
     )
