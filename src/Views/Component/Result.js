@@ -67,7 +67,7 @@ function Result(props)
         )
     }
 
-    if (songinfo){
+    if (props.location.song){
         return (
             <div>
                 {displaySong()}
