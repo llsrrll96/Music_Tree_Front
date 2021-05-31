@@ -65,6 +65,7 @@ function Prediction()
             //서버의 응답을 받은 후
             console.log("answer: "+data.result)
             //서버에 다음 질문 요청
+            //getQuestionData()
             getQuestionData2()
         })
     }
@@ -76,12 +77,11 @@ function Prediction()
         {
             let lyrics = document.getElementById("lyrics-required").value
             console.log("가사: "+lyrics)
-            //
             if (!lyrics){
                 alert('가사를 입력해 주세요.')
             }else{
                 //서버 전송
-                socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : document.getElementById("lyrics-required").value})
+                socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : lyrics})
                 socket.on("answer",data=>{
                     setQuestion(data) //set 될때마다 리렌더링됨
                 })
@@ -92,10 +92,6 @@ function Prediction()
                 setQuestion(data) //set 될때마다 리렌더링됨
             })
         }
-    }
-
-    const unknownHandler = () =>{
-        //서버에 모른다는 거 보냄
     }
 
 //=================================//
@@ -183,7 +179,7 @@ function Prediction()
         }else if(question.type === '3'){ //결과
             return (<Redirect to= {{
                 pathname: "/Result",
-                state : question.song,
+                song : question.song,
                 url : question.url
             }}/>)
         }
