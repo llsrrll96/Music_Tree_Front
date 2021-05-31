@@ -43,18 +43,14 @@ function Result(props)
         console.log("result song1: " +props.location.state)
         console.log("sondId: "+ songId)
         return (
-            <div>
-
-                <div className = "songinfo-border">
-                    <div className ="songinfo">
-                        <h5>{songinfo.title}</h5>
-                        <p>{songinfo.artist}</p>
-                        <p>{songinfo.album}</p>
-                        <p>{songinfo.genre}</p>
-                        <p>{songinfo.lyric}</p>
-                    </div>
+            <div className = "songinfo-border">
+                <div className ="songinfo">
+                    <h5>{songinfo.title}</h5>
+                    <p>{songinfo.artist}</p>
+                    <p>{songinfo.album}</p>
+                    <p>{songinfo.genre}</p>
+                    <p>{songinfo.lyric}</p>
                 </div>
-
             </div>
         )
     }

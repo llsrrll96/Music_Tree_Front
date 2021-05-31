@@ -61,13 +61,21 @@ body {
     padding: 10px;
     width: 100%;
 }
+.adminiAdd-content{
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+    margin-left: 150px;
+
+}
+.adminiAdd-button{
+    display: inline-block;
+}
+.adminiAdd-preview{
+
+}
+
 .btn{
     display: inline-block;
     margin-left: 20px;
-}
-.changePageDownbtn{
-    background-color: #008CBA;
-}
-.changePageUpbtn{
-    background-color: #008CBA;
 }

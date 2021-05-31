@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Redirect } from 'react-router';
 import io from "socket.io-client";
 import Button from '@material-ui/core/Button'; // Button을 import 한다.
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import TextField from '@material-ui/core/TextField';
 import tree from '../images/tree.png';
-import Search from './Component/Search';
+//import Search from './Component/Search';
 import './Home.css';
 
 
@@ -17,9 +18,6 @@ let socket = io.connect(`${endPoint}`)
 function Prediction() 
 {
     let [loading , setLoading] = useState(true)
-    let [isSearch, setIsSearch] = useState(false)
-    let [isResult, setIsResult] = useState(false)
-    let [socketId, setSocketId] = useState('')
     let [question, setQuestion] = useState([])
     let [btnValue, setBtnValue] = useState([])
 
@@ -31,7 +29,7 @@ function Prediction()
     {
         setLoading(true)
         console.log("서버 데이터")
-        socket.emit("question", {socketId : socket.id,step: 1})
+        socket.emit("question", {socketId : socket.id,step: 1}) //step 지우기
         socket.on("response",data=>{
             setQuestion(data) //set 될때마다 리렌더링됨
             setBtnValue(data.question_type)
@@ -40,7 +38,7 @@ function Prediction()
             setLoading(false)
         })
     }
-    function getQuestionData2()
+    function getQuestionData2() //step2 test
     {
         setLoading(true)
         console.log("서버 데이터")
@@ -69,6 +67,35 @@ function Prediction()
             //서버에 다음 질문 요청
             getQuestionData2()
         })
+    }
+
+    /* 가사 검색 */
+    const sendHandler = (e)=>{
+        e.preventDefault()
+        if (e.currentTarget.id === 'sendBtn')
+        {
+            let lyrics = document.getElementById("lyrics-required").value
+            console.log("가사: "+lyrics)
+            //
+            if (!lyrics){
+                alert('가사를 입력해 주세요.')
+            }else{
+                //서버 전송
+                socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : document.getElementById("lyrics-required").value})
+                socket.on("answer",data=>{
+                    setQuestion(data) //set 될때마다 리렌더링됨
+                })
+            }
+        }else{
+            socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : ''})
+            socket.on("answer",data=>{
+                setQuestion(data) //set 될때마다 리렌더링됨
+            })
+        }
+    }
+
+    const unknownHandler = () =>{
+        //서버에 모른다는 거 보냄
     }
 
 //=================================//
@@ -101,32 +128,65 @@ function Prediction()
     /* 질문 컴포넌트 */
     function questionBox(question)
     {
-        if(question.type === '1') //타입 체크
-        return(
-            <div className="question-body" >
-                <Grid
-                container
-                justify="center"
-                alignItems="center"
-                >
-                    <Typography component="div">
-                        <Box display="flex" m={1} border={1} width={300}>
-                            <Box p={1} bgcolor="info.main" width={50} textAlign="center">
-                                <p className="question-text">
-                                    {question.step}
-                                </p>
+        //타입 체크
+        if(question.type === '1')
+        {
+            return(
+                <div className="question-body" >
+                    <Grid
+                    container
+                    justify="center"
+                    alignItems="center"
+                    >
+                        <Typography component="div">
+                            <Box display="flex" m={1} border={1} width={300}>
+                                <Box p={1} bgcolor="info.main" width={50} textAlign="center">
+                                    <p className="question-text">
+                                        {question.step}
+                                    </p>
+                                </Box>
+                                <Box p={1}>
+                                    <p className="question-text" width={1/4}>
+                                        {question.question_type_name}
+                                    </p>
+                                </Box>
                             </Box>
-                            <Box p={1}>
-                                <p className="question-text" width={1/4}>
-                                    {question.question_type_name}
-                                </p>
+                        </Typography>
+                    </Grid>
+                </div>
+            )
+        }else if(question.type === '2'){ //가사
+            console.log("가사")
+            return (
+                <div className="search-flex-container">        
+                    <div className="search-input-box">
+                        <form className="input" noValidate autoComplete="off">
+                            <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                                <TextField required id="lyrics-required" label="가사 입력"/>
                             </Box>
-                        </Box>
-                    </Typography>
-
-                </Grid>
-            </div>
-        )
+                            <Box className="search-box" display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                                <div className="search-send-button">
+                                    <Button id='sendBtn' onClick={sendHandler} variant="outlined" color="primary">
+                                        보내기
+                                    </Button>
+                                </div>
+                                <div className="search-unknown-button">
+                                    <Button id='unknownBtn' onClick={sendHandler} variant="outlined" color="secondary">
+                                        모름
+                                    </Button>
+                                </div>
+                            </Box>
+                        </form>
+                    </div>
+                </div>
+            )
+        }else if(question.type === '3'){ //결과
+            return (<Redirect to= {{
+                pathname: "/Result",
+                state : question.song,
+                url : question.url
+            }}/>)
+        }
     }
 
     /* 답변 컴포넌트 */
@@ -134,17 +194,17 @@ function Prediction()
     {
         return(
             <div className="flex-container">
-            <div className="buttons">
-                <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="center"
-                >   
-                    {createButton(question.question_type)}
-                </Grid>
+                <div className="buttons">
+                    <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    >   
+                        {createButton(question.question_type)}
+                    </Grid>
+                </div>
             </div>
-        </div>
         )
     }
     const createButton =(buttons)=> //배열 형식

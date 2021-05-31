@@ -70,7 +70,7 @@ const AdminiAddSong = () => {
                 <div className="admini-sidebar">
                     <Sidebar></Sidebar>
                 </div>
-                <div className="admini-content">
+                <div className="adminiAdd-content">
                     <div className =" adminiAdd-input">
                         
                     </div>
