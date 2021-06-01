@@ -3,8 +3,8 @@ import './Result.css'
 
 function Result(props)
 {
-    let songId = props.location.song
-    let [songinfo, setSonginfo] = useState([])
+    let songinfo = props.location.song
+    //let [songinfo, setSonginfo] = useState([])
     
     //값 없이 들어 왔을 경우
     useEffect(()=>{
@@ -12,47 +12,7 @@ function Result(props)
             props.history.push("/");
         }
     })
-    useEffect(()=>{
-            console.log("result song1: " +props.location.song)
-            console.log("sondId: "+ songId)
-            console.log("url: "+ props.location.url)
-            getSongData()
-    },[])
 
-    const getSongData =()=>{
-        //서버에 song 아이디를 보낸다.
-        
-        //결과를 받아온다.
-        let info={ //더미 데이터
-            title : "라일락",
-            artist : "아이유",
-            album : "IU 5th Album 'LILAC",
-            genre : "댄스",
-            lyric : `나리는 꽃가루에 눈이 따끔해 (아야)
-            \n눈물이 고여도 꾹 참을래
-            내 마음 한켠 비밀스런 오르골에 넣어두고서
-            영원히 되감을 순간이니까
-            
-            우리 둘의 마지막 페이지를 잘 부탁해
-            어느 작별이 이보다 완벽할까
-            나리는 꽃가루에 눈이 따끔해 (아야)
-            눈물이 고여도 꾹 참을래
-            내 마음 한켠 비밀스런 오르골에 넣어두고서
-            영원히 되감을 순간이니까
-            
-            우리 둘의 마지막 페이지를 잘 부탁해
-            어느 작별이 이보다 완벽할까
-            나리는 꽃가루에 눈이 따끔해 (아야)
-            눈물이 고여도 꾹 참을래
-            내 마음 한켠 비밀스런 오르골에 넣어두고서
-            영원히 되감을 순간이니까
-            
-            우리 둘의 마지막 페이지를 잘 부탁해
-            어느 작별이 이보다 완벽할까`
-        }
-        setSonginfo(info)
-    }
-    
     const displaySong =()=>{
         return (
             <div className = "songinfo-border">
@@ -61,7 +21,7 @@ function Result(props)
                     <p>{songinfo.artist}</p>
                     <p>{songinfo.album}</p>
                     <p>{songinfo.genre}</p>
-                    <p>{songinfo.lyric}</p>
+                    <p>{songinfo.lyrics}</p>
                 </div>
             </div>
         )
@@ -76,5 +36,23 @@ function Result(props)
     } else {
         return <div>{alert('다시 시작해 주세요.')}다시 시작해 주세요.</div>;
     }
+    // {
+    //     'song_id': 2, 
+    //     'title': "롤린 (Rollin')", 
+    //     'artist': '브레이브걸스', 
+    //     'album': "Rollin'", 
+    //     'ost': None, 
+    //     'rel_date': datetime.date(2017, 3, 7), 
+    //     'genre': 2, 
+    //     'group_type': 2, 
+    //     'gender': 2,
+    //      'feat': '\r', 
+    //      'relevance': '사랑', 
+    //      'mood': 11, 
+    //      'lyrics': "그 날을 잊지 못해 babe 날 보며 환히 웃던 너의 미소에 홀린 듯 I'm fall in love But 너무 쪽팔림에 난 그저 한마디 말도 못해 babe I wanna you 너의 눈빛은 날 자꾸 네 곁을 맴돌게 해 Just only you 굳게 닫힌 내 맘이 어느새 무너져버려 Because of you 온통 너의 생각뿐이야 나도 미치겠어 너무 보고 싶어 매일 매일 매일 자꾸 초라해지잖아 내 모습이 그대여 내게 말해줘 사랑한다고 Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 하루가 멀다 하고 Rolling in the deep Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 기다리고 있잖아 Babe Just only you 기다리고 있잖아 Babe Just only you Hey I just wanna be with you 오늘 밤이 가기 전에 I can't feel you 조금 더 다가와 줘 Tonight I'm ready for you You wanna touch me I know 대체 뭘 고민해 빨리 안아 아닌 척 모르는 척 하다가 늦게 놓치고 후회 말아 I wanna you 너의 눈빛은 날 자꾸 네 곁을 맴돌게 해 Just only you 굳게 닫힌 내 맘이 어느새 무너져버려 Because of you 온통 너의 생각뿐이야 나도 미치겠어 너무 보고 싶어 매일 매일 매일 자꾸 초라해지잖아 내 모습이 그대여 내게 말해줘 사랑한다고 Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 하루가 멀다 하고 Rolling in the deep Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 기다리고 있잖아 Babe Just only you 이제 와 숨기려 하지 마요 그대여 아닌 척하지 마요 온종일 난 그대 생각에 잠긴 채로 난 이대로 기다리고 있어요 Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 하루가 멀다 하고 Rolling in the deep Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' Rollin' 기다리고 있잖아 Babe Just only you 기다리고 있잖아 Babe Just only you", 
+    //      'words': None, 
+    //      'melon_song_id': 30287019, 
+    //      'type': '3', 
+    //      'url': 'https://www.youtube.com/watch?v=-Axm4IYHVYk'}
 }
 export default Result

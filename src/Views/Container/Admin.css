@@ -21,7 +21,8 @@ body {
     margin-left: 150px;
     background-color: #333;
     padding: 5px 0px 5px 20px;
-    color :#ddd
+    color :#ddd;
+    width: 100%
 }
 
 /* Style the side navigation */
@@ -61,6 +62,8 @@ body {
     padding: 10px;
     width: 100%;
 }
+
+
 .adminiAdd-content{
     display: inline-block;
     padding: 10px;
@@ -68,9 +71,21 @@ body {
     margin-left: 150px;
 
 }
+.adminiAdd-buttons{
+    background: rgb(53, 0, 0);
+    border-radius: 10px;
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+}
 .adminiAdd-button{
     display: inline-block;
 }
+.adminiAdd-savebutton{
+    display: inline-block;
+    margin-left: 10px;
+}
+
 .adminiAdd-preview{
 
 }

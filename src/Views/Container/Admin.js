@@ -50,22 +50,12 @@ function Admin ()  {
     const [pageNum , setPageNum] = useState(1)
 
     useEffect(() => {
-        async function fetchSongPosts(){
-            setLoading(true);    
-            console.log('로딩')        
-            await axios.get('http://127.0.0.1:5000/song-info?index=' + pageNum)
-            .then((songs)=>{
-                setSongPosts(songs.data);
-                setLoading(false);
-            });
-        }
-        fetchSongPosts()
+        loadSongPost(pageNum)
     },[]);
 
     const loadSongPost = (num)=>{
         async function fetchSongPosts(){
             setLoading(true);    
-            console.log('로딩')        
             await axios.get('http://127.0.0.1:5000/song-info?index=' + num)
             .then((songs)=>{
                 setSongPosts(songs.data);
@@ -132,11 +122,9 @@ function Admin ()  {
         if(pageNum > 1)
         {
             //pageNumber -= 50
-            loadSongPost(pageNum - 50)
-            setPageNum(pageNum - 50)
-            console.log("페이지 변경: "+ pageNum)
+            loadSongPost(pageNum - 500)
+            setPageNum(pageNum - 500)
         }else{
-            console.log(pageNum)
             alert("내릴 수 없습니다.")
         }
         
@@ -144,10 +132,14 @@ function Admin ()  {
     //페이지 Up 버튼
     const handleChangePageUpButtonClick = ()=>{
         //pageNumber += 50
-        loadSongPost(pageNum + 50)
-        setPageNum(pageNum + 50)
-        console.log("페이지 변경: "+ pageNum)
+        loadSongPost(pageNum + 500)
+        setPageNum(pageNum + 500)
     }
+    //가사 갱신
+    const handleRefreshLyricsButtonClick= ()=>{
+        console.log("가사 갱신")
+    }
+
 
     //row 선택
     const onRowSelected = (params)=>{
@@ -241,6 +233,17 @@ function Admin ()  {
                             >
                                 다음 페이지 ▶
                             </ColorButton>
+                        </div>
+                        <div className="btn">
+                            <Button 
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    handleRefreshLyricsButtonClick()
+                                }}
+                                variant="contained"
+                            >
+                                가사 갱신
+                            </Button>
                         </div>
                     </div>
                 </div>

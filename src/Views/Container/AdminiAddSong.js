@@ -7,6 +7,8 @@ import './Admin.css';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { green, purple } from '@material-ui/core/colors';
+import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //custom button
 const ColorButton = withStyles((theme) => ({
@@ -21,7 +23,10 @@ const ColorButton = withStyles((theme) => ({
 //
 
 const AdminiAddSong = () => {
-    const [song, setSong] = useState([''])
+    let [loading , setLoading] = useState(false)
+    const [song, setSong] = useState([])
+    const [isSave, setIsSave] = useState(false)
+
     const data = [
         {
                 title: "사랑 안 해",
@@ -32,33 +37,36 @@ const AdminiAddSong = () => {
                 artist: "하진"
         }
     ]
-    // [
-    //     {
-    //             title: "사랑 안 해",
-    //             artist: "백지영"
-    //     },
-    //     {
-    //             title: "불꽃놀이",
-    //             artist: "하진"
-    //     }
-    // ]
 
     //page 1개당 50개
-    const displaySongForAdd = ()=>{
-        async function fetchSongPosts(){
-            console.log('로딩')        
-            await axios.get('http://127.0.0.1:5000/admin/addt?page=1&grNumber=1')
-            .then((songs)=>{
-                setSong(songs);
-                console.log(songs)
-            });
-        }
-        fetchSongPosts()
-    }
-    const test =()=>{
-        setSong(data)
-    }
+    const getSongData = ()=>{
+        if(!loading)//로딩중이 아닐때만
+        {
+            
+            let pageNumberParam = 1
+            let grNumberParam = 1
 
+            async function fetchSongPosts(pageNumber,grNumber){
+                setLoading(true)   
+                await axios.get('http://127.0.0.1:5000/admin/add1?page='+pageNumber+'&grNumber='+grNumber)
+                .then((songs)=>{
+                    setSong(songs.data);
+                    setIsSave(true)
+                    setLoading(false)
+                });
+            }
+            fetchSongPosts(pageNumberParam,grNumberParam)   
+        }else
+            alert('로딩 중')
+    }
+    const saveSongData=()=>{
+        if(isSave){
+            alert('저장완료')
+            setIsSave(false)
+        }else{
+            alert('저장실패')
+        }
+    }
 
     return (
         <div>
@@ -74,25 +82,38 @@ const AdminiAddSong = () => {
                     <div className =" adminiAdd-input">
                         
                     </div>
-                    <div className="adminiAdd-button">
-                        <ColorButton 
-                            onClick={e => {
-                                e.stopPropagation()
-                                test() //displaySongForAdd()
-                            }}
-                        >추가하기
-                        </ColorButton>
+                    <div className="adminiAdd-buttons">
+                        <div className="adminiAdd-button">
+                            <ColorButton 
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    getSongData()
+                                }}
+                                >추가하기
+                            </ColorButton>
+                        </div>
+                        <div className="adminiAdd-savebutton">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                startIcon={<SaveIcon />}
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    saveSongData()
+                                }}
+                                >저장하기
+                            </Button>
+                        </div>
                     </div>
+                    { loading &&<CircularProgress />}
                     <div className="adminiAdd-preview" >
-                        {song && song.length &&(
+                        {song && song.length > 0 &&(
                             <AdminiAddSongPreview songData={song} />
                         )}
                     </div>
                 </div>
             </div>
         </div>
-
-
     )
 }
 

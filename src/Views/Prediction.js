@@ -29,20 +29,21 @@ function Prediction()
     {
         setLoading(true)
         console.log("서버 데이터")
-        socket.emit("question", {socketId : socket.id,step: 1}) //step 지우기
+        socket.emit("question", {socketId : socket.id}) //step 지우기
         socket.on("response",data=>{
             setQuestion(data) //set 될때마다 리렌더링됨
             setBtnValue(data.question_type)
             console.log(data)
             console.log('버튼: ' + data.question_type)
             setLoading(false)
+            socket.off("response")
         })
     }
     function getQuestionData2() //step2 test
     {
         setLoading(true)
         console.log("서버 데이터")
-        socket.emit("question", {socketId : socket.id,step: 2})
+        socket.emit("question", {socketId : socket.id})
         socket.on("response",data=>{
             setQuestion(data) //set 될때마다 리렌더링됨
             setBtnValue(data.question_type)
@@ -61,12 +62,14 @@ function Prediction()
             "socketId" : socket.id
         }
         socket.emit("answer", sendData)
+
         socket.on("answer",data=>{
             //서버의 응답을 받은 후
             console.log("answer: "+data.result)
             //서버에 다음 질문 요청
-            //getQuestionData()
-            getQuestionData2()
+            getQuestionData()
+            //getQuestionData2()
+            socket.off("answer")
         })
     }
 
@@ -86,7 +89,7 @@ function Prediction()
                     setQuestion(data) //set 될때마다 리렌더링됨
                 })
             }
-        }else{
+        }else{ //모른다.
             socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : ''})
             socket.on("answer",data=>{
                 setQuestion(data) //set 될때마다 리렌더링됨
@@ -99,12 +102,7 @@ function Prediction()
         console.log("마운트될때만 실행된다.") //처음 나타났을때
         if(!isConnection.current){ //첫
             isConnection.current = true
-            socket.emit("join",{socketId : socket.id},()=>{
-                    socket.on("jresponse",v=>{
-                        console.log('소켓 '+socket.id)
-                        // getServerData(v.socketId)
-                    })
-            })
+            socket.emit("join",{socketId : socket.id})
         }
     },[])
 
@@ -179,8 +177,7 @@ function Prediction()
         }else if(question.type === '3'){ //결과
             return (<Redirect to= {{
                 pathname: "/Result",
-                song : question.song,
-                url : question.url
+                song : question
             }}/>)
         }
     }
