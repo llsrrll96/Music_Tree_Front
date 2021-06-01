@@ -135,9 +135,18 @@ function Admin ()  {
         loadSongPost(pageNum + 500)
         setPageNum(pageNum + 500)
     }
-    //가사 갱신
+    //가사 단어 추출
     const handleRefreshLyricsButtonClick= ()=>{
-        console.log("가사 갱신")
+        console.log("가사 단어 추출")
+        async function fetchSongPosts(){
+            setLoading(true);    
+            await axios.get('http://127.0.0.1:5000/admin/words')
+            .then((result)=>{
+                alert(result)
+                setLoading(false);
+            })
+        }
+        fetchSongPosts()
     }
 
 
@@ -242,7 +251,7 @@ function Admin ()  {
                                 }}
                                 variant="contained"
                             >
-                                가사 갱신
+                                가사 단어 추출
                             </Button>
                         </div>
                     </div>

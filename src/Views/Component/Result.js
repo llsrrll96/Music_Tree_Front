@@ -14,6 +14,8 @@ function Result(props)
     })
 
     const displaySong =()=>{
+
+        
         return (
             <div className = "songinfo-border">
                 <div className ="songinfo">

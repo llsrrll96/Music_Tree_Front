@@ -72,14 +72,18 @@ body {
 
 }
 .adminiAdd-buttons{
-    background: rgb(53, 0, 0);
+    background: rgb(255, 213, 213);
     border-radius: 10px;
     display: inline-block;
     padding: 10px;
     width: 100%;
 }
+.adminiAdd-input{
+    display: inline-block;
+}
 .adminiAdd-button{
     display: inline-block;
+    margin-left: 10px;
 }
 .adminiAdd-savebutton{
     display: inline-block;

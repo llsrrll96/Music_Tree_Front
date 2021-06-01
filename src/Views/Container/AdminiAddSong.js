@@ -3,12 +3,17 @@ import axios from 'axios';
 import Sidebar from "./Sidebar";
 import AdminiAddSongPreview from "../Component/AdminiAddSongPreview";
 import { Header } from 'semantic-ui-react';
-import './Admin.css';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { green, purple } from '@material-ui/core/colors';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import './Admin.css';
 
 //custom button
 const ColorButton = withStyles((theme) => ({
@@ -26,7 +31,9 @@ const AdminiAddSong = () => {
     let [loading , setLoading] = useState(false)
     const [song, setSong] = useState([])
     const [isSave, setIsSave] = useState(false)
-
+    let [pageNumberParam, setPageNumberParam] = useState(1)
+    let [grNumberParam, setGrNumberaParam] = useState(1)
+    
     const data = [
         {
                 title: "사랑 안 해",
@@ -38,14 +45,11 @@ const AdminiAddSong = () => {
         }
     ]
 
-    //page 1개당 50개
+    //page 1개당 50개 page = 1 ~ 10 , grNumber = 1 ~ 8 
     const getSongData = ()=>{
         if(!loading)//로딩중이 아닐때만
         {
             
-            let pageNumberParam = 1
-            let grNumberParam = 1
-
             async function fetchSongPosts(pageNumber,grNumber){
                 setLoading(true)   
                 await axios.get('http://127.0.0.1:5000/admin/add1?page='+pageNumber+'&grNumber='+grNumber)
@@ -68,6 +72,10 @@ const AdminiAddSong = () => {
         }
     }
 
+    const handleChangePageNumberParam = (event) => {
+        setPageNumberParam(event.target.value);
+      };
+
     return (
         <div>
             <div className="admini-header">
@@ -79,10 +87,23 @@ const AdminiAddSong = () => {
                     <Sidebar></Sidebar>
                 </div>
                 <div className="adminiAdd-content">
-                    <div className =" adminiAdd-input">
-                        
-                    </div>
                     <div className="adminiAdd-buttons">
+                        <div className ="adminiAdd-input">
+                            <FormControl required >
+                                <InputLabel id="demo-simple-select-required-label">페이지 (1페이지당 50곡)</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-required-label"
+                                    id="demo-simple-select-required"
+                                    value={pageNumberParam}
+                                    onChange={handleChangePageNumberParam}
+                                >
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                </Select>
+                                <FormHelperText>Required</FormHelperText>
+                            </FormControl>
+                        </div>
                         <div className="adminiAdd-button">
                             <ColorButton 
                                 onClick={e => {
