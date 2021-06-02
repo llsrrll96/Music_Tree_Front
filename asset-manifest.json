@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/https//llsrrll96.github.io/Music_Tree_Front/static/css/main.941bc334.chunk.css",
-    "main.js": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/main.2503e1f9.chunk.js",
-    "main.js.map": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/main.2503e1f9.chunk.js.map",
-    "runtime-main.js": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/runtime-main.0d5f03e1.js",
-    "runtime-main.js.map": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/runtime-main.0d5f03e1.js.map",
-    "static/js/2.96a75950.chunk.js": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/2.96a75950.chunk.js",
-    "static/js/2.96a75950.chunk.js.map": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/2.96a75950.chunk.js.map",
-    "static/js/3.78335a17.chunk.js": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/3.78335a17.chunk.js",
-    "static/js/3.78335a17.chunk.js.map": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/3.78335a17.chunk.js.map",
-    "index.html": "/https//llsrrll96.github.io/Music_Tree_Front/index.html",
-    "static/css/main.941bc334.chunk.css.map": "/https//llsrrll96.github.io/Music_Tree_Front/static/css/main.941bc334.chunk.css.map",
-    "static/js/2.96a75950.chunk.js.LICENSE.txt": "/https//llsrrll96.github.io/Music_Tree_Front/static/js/2.96a75950.chunk.js.LICENSE.txt",
-    "static/media/tree.c622d5b2.png": "/https//llsrrll96.github.io/Music_Tree_Front/static/media/tree.c622d5b2.png"
+    "main.css": "/Music_Tree_Front/static/css/main.941bc334.chunk.css",
+    "main.js": "/Music_Tree_Front/static/js/main.2503e1f9.chunk.js",
+    "main.js.map": "/Music_Tree_Front/static/js/main.2503e1f9.chunk.js.map",
+    "runtime-main.js": "/Music_Tree_Front/static/js/runtime-main.06bd1d4a.js",
+    "runtime-main.js.map": "/Music_Tree_Front/static/js/runtime-main.06bd1d4a.js.map",
+    "static/js/2.8b806e9b.chunk.js": "/Music_Tree_Front/static/js/2.8b806e9b.chunk.js",
+    "static/js/2.8b806e9b.chunk.js.map": "/Music_Tree_Front/static/js/2.8b806e9b.chunk.js.map",
+    "static/js/3.78335a17.chunk.js": "/Music_Tree_Front/static/js/3.78335a17.chunk.js",
+    "static/js/3.78335a17.chunk.js.map": "/Music_Tree_Front/static/js/3.78335a17.chunk.js.map",
+    "index.html": "/Music_Tree_Front/index.html",
+    "static/css/main.941bc334.chunk.css.map": "/Music_Tree_Front/static/css/main.941bc334.chunk.css.map",
+    "static/js/2.8b806e9b.chunk.js.LICENSE.txt": "/Music_Tree_Front/static/js/2.8b806e9b.chunk.js.LICENSE.txt",
+    "static/media/tree.c622d5b2.png": "/Music_Tree_Front/static/media/tree.c622d5b2.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.0d5f03e1.js",
-    "static/js/2.96a75950.chunk.js",
+    "static/js/runtime-main.06bd1d4a.js",
+    "static/js/2.8b806e9b.chunk.js",
     "static/css/main.941bc334.chunk.css",
     "static/js/main.2503e1f9.chunk.js"
   ]
