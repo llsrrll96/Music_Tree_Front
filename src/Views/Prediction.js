@@ -11,8 +11,8 @@ import tree from '../images/tree.png';
 //import Search from './Component/Search';
 import './Home.css';
 
-
-let endPoint = "http://localhost:5000/prediction"
+let host = "localhost"
+let endPoint = "http://"+host+":5000/prediction"
 let socket = io.connect(`${endPoint}`)
 
 function Prediction() 

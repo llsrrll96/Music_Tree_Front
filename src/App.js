@@ -7,7 +7,7 @@ import Result from './Views/Component/Result';
 import Admin from './Views/Container/Admin';
 import AdminiAddSong from './Views/Container/AdminiAddSong';
 import DataGridDemo from './Views/Container/DataGridDemo';
-
+import SearchSong from './Views/Container/SearchSong';
 
 function App() {
  
@@ -23,6 +23,7 @@ function App() {
                         <Route path="/admin/add" component={AdminiAddSong}/>
                         <Route path="/admin" component={Admin}/>
                         <Route path="/demo" component={DataGridDemo}/>
+                        <Route path="/SearchSong" component={SearchSong}/>
                     </Switch>
                 </Router>
             </div>

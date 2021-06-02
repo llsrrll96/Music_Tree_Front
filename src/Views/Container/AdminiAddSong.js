@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import Sidebar from "./Sidebar";
 import AdminiAddSongPreview from "../Component/AdminiAddSongPreview";
-import { Header } from 'semantic-ui-react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { green, purple } from '@material-ui/core/colors';
@@ -13,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
 import './Admin.css';
 
 //custom button
@@ -25,25 +25,28 @@ const ColorButton = withStyles((theme) => ({
       },
     },
   }))(Button);
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 200,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    }));
 //
 
 const AdminiAddSong = () => {
+    const host = 'localhost'
+
     let [loading , setLoading] = useState(false)
     const [song, setSong] = useState([])
     const [isSave, setIsSave] = useState(false)
     let [pageNumberParam, setPageNumberParam] = useState(1)
     let [grNumberParam, setGrNumberaParam] = useState(1)
-    
-    const data = [
-        {
-                title: "사랑 안 해",
-                artist: "백지영"
-        },
-        {
-                title: "불꽃놀이",
-                artist: "하진"
-        }
-    ]
+    const classes = useStyles();
+
 
     //page 1개당 50개 page = 1 ~ 10 , grNumber = 1 ~ 8 
     const getSongData = ()=>{
@@ -52,7 +55,7 @@ const AdminiAddSong = () => {
             
             async function fetchSongPosts(pageNumber,grNumber){
                 setLoading(true)   
-                await axios.get('http://127.0.0.1:5000/admin/add1?page='+pageNumber+'&grNumber='+grNumber)
+                await axios.get('http://'+host+':5000/admin/add1?page='+pageNumber+'&grNumber='+grNumber)
                 .then((songs)=>{
                     setSong(songs.data);
                     setIsSave(true)
@@ -65,8 +68,19 @@ const AdminiAddSong = () => {
     }
     const saveSongData=()=>{
         if(isSave){
-            alert('저장완료')
-            setIsSave(false)
+            async function fetchSongPosts(){
+                setLoading(true)   
+                await axios.get('http://'+host+':5000/admin/add2')
+                .then((data)=>{
+                    if(data.result ==='yes'){
+                        alert('저장완료')
+                        setIsSave(false)
+                        setLoading(false)
+                    }
+                });
+            }
+            fetchSongPosts()  
+            
         }else{
             alert('저장실패')
         }
@@ -75,11 +89,14 @@ const AdminiAddSong = () => {
     const handleChangePageNumberParam = (event) => {
         setPageNumberParam(event.target.value);
       };
+      const handleChangeGrNumberParam = (event) => {
+        setGrNumberaParam(event.target.value);
+      };
 
     return (
         <div>
-            <div className="admini-header">
-                <Header as='h2'>노래 추가</Header>
+            <div>
+                <header className="admini-header">노래 추가</header>
             </div>
             
             <div className="admini-main">
@@ -89,7 +106,9 @@ const AdminiAddSong = () => {
                 <div className="adminiAdd-content">
                     <div className="adminiAdd-buttons">
                         <div className ="adminiAdd-input">
-                            <FormControl required >
+                            <FormControl required 
+                                className={classes.formControl}
+                            >
                                 <InputLabel id="demo-simple-select-required-label">페이지 (1페이지당 50곡)</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-required-label"
@@ -100,6 +119,36 @@ const AdminiAddSong = () => {
                                 <MenuItem value={1}>1</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
                                 <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={5}>5</MenuItem>
+                                <MenuItem value={6}>6</MenuItem>
+                                <MenuItem value={7}>7</MenuItem>
+                                <MenuItem value={8}>8</MenuItem>
+                                <MenuItem value={9}>9</MenuItem>
+                                <MenuItem value={10}>10</MenuItem>
+                                </Select>
+                                <FormHelperText>Required</FormHelperText>
+                            </FormControl>
+                        </div>
+                        <div className ="adminiAdd-input">
+                            <FormControl required 
+                                className={classes.formControl}
+                            >
+                                <InputLabel id="demo-simple-select-required-label">장르 선택</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-required-label"
+                                    id="demo-simple-select-required"
+                                    value={grNumberParam}
+                                    onChange={handleChangeGrNumberParam}
+                                >
+                                <MenuItem value={1}>발라드</MenuItem>
+                                <MenuItem value={2}>댄스</MenuItem>
+                                <MenuItem value={3}>랩/힙합</MenuItem>
+                                <MenuItem value={4}>R&B</MenuItem>
+                                <MenuItem value={5}>인디음악</MenuItem>
+                                <MenuItem value={6}>록/메탈</MenuItem>
+                                <MenuItem value={7}>트로트</MenuItem>
+                                <MenuItem value={8}>포크/블루스</MenuItem>
                                 </Select>
                                 <FormHelperText>Required</FormHelperText>
                             </FormControl>
@@ -110,7 +159,7 @@ const AdminiAddSong = () => {
                                     e.stopPropagation()
                                     getSongData()
                                 }}
-                                >추가하기
+                                >노래 스크랩
                             </ColorButton>
                         </div>
                         <div className="adminiAdd-savebutton">

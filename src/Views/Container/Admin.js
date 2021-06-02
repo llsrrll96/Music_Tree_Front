@@ -5,7 +5,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import { Header } from 'semantic-ui-react';
 import './Admin.css';
 import { withStyles } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
@@ -39,6 +38,8 @@ const column =[
 ]
 
 function Admin ()  {
+    const host = 'localhost'
+
     const [songPosts, setSongPosts] = useState([])
     const [loading, setLoading] = useState(false)
     //const [currentPage, setCurrentPage] = useState(1)
@@ -56,7 +57,7 @@ function Admin ()  {
     const loadSongPost = (num)=>{
         async function fetchSongPosts(){
             setLoading(true);    
-            await axios.get('http://127.0.0.1:5000/song-info?index=' + num)
+            await axios.get('http://'+host+':5000/song-info?index=' + num)
             .then((songs)=>{
                 setSongPosts(songs.data);
                 setLoading(false);
@@ -86,7 +87,7 @@ function Admin ()  {
         }else{
             
             async function postDeleteSongs(){  
-                await axios.post('http://127.0.0.1:5000/admin/delete',selectionModel)
+                await axios.post('http://'+host+':5000/admin/delete',selectionModel)
                 .then( function(result) {
                     console.log(result.data)
                     alert(result.data.result)
@@ -104,7 +105,7 @@ function Admin ()  {
             console.log(selectedLowForModify) //선택된 값
             console.log(selectedLowForModify.data)            
             async function postModifySongs(){  
-                await axios.post('http://127.0.0.1:5000/admin/modify',selectedLowForModify.data)
+                await axios.post('http://'+host+':5000/admin/modify',selectedLowForModify.data)
                 .then( function(result) { //서버에서 온 값
                     console.log(result.data)
                     alert(result.data.result)
@@ -140,7 +141,7 @@ function Admin ()  {
         console.log("가사 단어 추출")
         async function fetchSongPosts(){
             setLoading(true);    
-            await axios.get('http://127.0.0.1:5000/admin/words')
+            await axios.get('http://'+host+':5000/admin/words')
             .then((result)=>{
                 alert(result)
                 setLoading(false);
@@ -160,8 +161,8 @@ function Admin ()  {
     return (
         
         <div>
-            <div className="admini-header">
-                <Header as='h2'>노래 목록</Header>
+            <div >
+                <header className="admini-header">노래 목록</header>
             </div>
             
             <div className="admini-main">
@@ -169,9 +170,9 @@ function Admin ()  {
                     <Sidebar></Sidebar>
                 </div>
                 <div className="admini-content">
-                    <div>
+                    {/* <div>
                         <code>editRowsModel: {JSON.stringify(editRowsModel)}</code>
-                    </div>
+                    </div> */}
                     <div style={{height: 600, width:'100%' }}>
                         <DataGrid className="datagrid"
                         rows={songPosts} 
