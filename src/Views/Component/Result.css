@@ -11,13 +11,13 @@ body
 
 h5 {
   margin:0px;
+  margin-top: 20px;
   font-size:1.4em;
   font-weight:700;
 }
 
 p {
   font-size:14px;
-  margin: 20px 0px;
 }
 
 .center {
@@ -28,8 +28,7 @@ p {
   align-items: center;
 }
 
-
-.songinfo-border {
+.songinfo-header{
     width: 50%;
     margin: 40px auto;
     display:-webkit-box;
@@ -49,13 +48,64 @@ p {
     box-shadow:  15px 15px 27px #e1e1e3, -15px -15px 27px #ffffff;
   
 }
-.songinfo{
-    padding: 5px 10px;
-    background-color: #f4a0ff;
+.songinfo-header-title{
     text-align: center;
     bottom:0em;
     -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
     -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
     padding: 0.5em 1em;
+}
+
+.songinfo-border {
+    width: 50%;
+    margin: 40px auto;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    position:relative;
+    -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    border-radius:16px;
+    overflow:hidden;
+    -webkit-box-shadow:  15px 15px 27px #e1e1e3, -15px -15px 27px #ffffff;
+    box-shadow:  15px 15px 27px #e1e1e3, -15px -15px 27px #ffffff;
+}
+.songinfo{
+    padding: 5px 10px;
+    background-color: #f1fbff;
+    bottom:0em;
+    -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    padding: 0.5em 1em;
+}
+.songinfo2{
+    padding: 5px 10px;
+    background-color: #ffffffd8;
+    bottom:0em;
+    -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    padding: 0.5em 1em;
+}
+
+.songinfo-partition{
+    margin-top: 20px
+}
+.songinfo-detail-column{
+    display: inline-block;
+    width: 100px;
+}
+.songinfo-detail-column-value{
+    display: inline-block;
+}
+.songinfo-detail-lyrics{
+    word-break: normal;
+    word-spacing: 5px;
 }

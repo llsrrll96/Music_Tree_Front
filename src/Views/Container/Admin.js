@@ -22,23 +22,23 @@ const ColorButton = withStyles((theme) => ({
 //
 const column =[
     {field: 'id',headerName:'ID' },
-    {field: 'title', headerName:'제목' ,width:130},
-    {field: 'artist', headerName:'가수', width:130},
-    {field: 'album', headerName:'앨범',width: 130},
+    {field: 'title', headerName:'제목' ,width:200},
+    {field: 'artist', headerName:'가수', width:200},
+    {field: 'album', headerName:'앨범',width: 200},
     {field: 'ost', headerName:'OST', type:'number',width:100},
     {field: 'rel_date', headerName: 'DATE', width:120},
     {field: 'genre', headerName: '장르', type:'number', width:90},
     {field: 'group_type', headerName: '유형', type:'number', width:90},
     {field: 'gender', headerName: '성별', type:'number', width:90},
     {field: 'feat', headerName: 'Feat', width:100},
-    {field: 'relevance', headerName: '관련성', width:110, editable:true},
+    {field: 'relevance', headerName: '관련성', width:300, editable:true},
     {field: 'mood', headerName: '분위기', width:100, editable: true},
-    {field: 'lyrics', headerName: '가사', width:200, editable: true},
-    {field: 'words', headerName: '기타', width:100,editable:true}
+    {field: 'lyrics', headerName: '가사', width:500, editable: true},
+    {field: 'words', headerName: '기타', width:200,editable:true}
 ]
 
 function Admin ()  {
-    const host = 'localhost'
+    const host = '119.56.229.177'
 
     const [songPosts, setSongPosts] = useState([])
     const [loading, setLoading] = useState(false)

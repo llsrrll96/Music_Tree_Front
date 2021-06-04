@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 //
 
 const AdminiAddSong = () => {
-    const host = 'localhost'
+    const host = '119.56.229.177'
 
     let [loading , setLoading] = useState(false)
     const [song, setSong] = useState([])

@@ -13,7 +13,8 @@ const SearchSong = () => {
         //     });
         // }
         // fetchSongPosts()
-        fetch('http://www.maniadb.com/api/search/metallica/?sr=song&display=10&key=example&v=0.5',
+        const url = 'http://www.maniadb.com/api/search/metallica/?sr=song&display=10&key=example&v=0.5'
+        fetch(url,
         {
            method: 'GET',
            mode: 'no-cors',

@@ -8,10 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
 import tree from '../images/tree.png';
-//import Search from './Component/Search';
 import './Home.css';
 
-let host = "localhost"
+let host = "119.56.229.177" 
 let endPoint = "http://"+host+":5000/prediction"
 let socket = io.connect(`${endPoint}`)
 
@@ -33,30 +32,14 @@ function Prediction()
         socket.on("response",data=>{
             setQuestion(data) //set 될때마다 리렌더링됨
             setBtnValue(data.question_type)
-            console.log(data)
-            console.log('버튼: ' + data.question_type)
             setLoading(false)
             socket.off("response")
-        })
-    }
-    function getQuestionData2() //step2 test
-    {
-        setLoading(true)
-        console.log("서버 데이터")
-        socket.emit("question", {socketId : socket.id})
-        socket.on("response",data=>{
-            setQuestion(data) //set 될때마다 리렌더링됨
-            setBtnValue(data.question_type)
-            console.log(data)
-            console.log('버튼: ' + data.question_type)
-            setLoading(false)
         })
     }
 
     /* 클릭한 값을 서버에 보낸다.*/
     const sendAnswer = (e, btnValue) => {
         e.preventDefault()
-        console.log('btn: '+btnValue)
         const sendData = {
             "btnValue" : btnValue,
             "socketId" : socket.id
@@ -65,21 +48,19 @@ function Prediction()
 
         socket.on("answer",data=>{
             //서버의 응답을 받은 후
-            console.log("answer: "+data.result)
             //서버에 다음 질문 요청
             getQuestionData()
-            //getQuestionData2()
             socket.off("answer")
         })
     }
 
     /* 가사 검색 */
     const sendHandler = (e)=>{
+        setLoading(true)
         e.preventDefault()
         if (e.currentTarget.id === 'sendBtn')
         {
             let lyrics = document.getElementById("lyrics-required").value
-            console.log("가사: "+lyrics)
             if (!lyrics){
                 alert('가사를 입력해 주세요.')
             }else{
@@ -87,36 +68,39 @@ function Prediction()
                 socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : lyrics})
                 socket.on("answer",data=>{
                     setQuestion(data) //set 될때마다 리렌더링됨
+                    setLoading(false)
                 })
             }
         }else{ //모른다.
             socket.emit("lyrics_find", {socketId : socket.id, lyricsInput : ''})
             socket.on("answer",data=>{
                 setQuestion(data) //set 될때마다 리렌더링됨
+                setLoading(false)
             })
         }
     }
 
 //=================================//
     useEffect(()=>{
-        console.log("마운트될때만 실행된다.") //처음 나타났을때
+        //처음 시작 시 실행 하는 코드
         if(!isConnection.current){ //첫
             isConnection.current = true
             socket.emit("join",{socketId : socket.id})
+
+            socket.on("join_response",data=>{
+                if(isConnection.current)
+                {
+                    getQuestionData()
+                }
+                else{
+                    console.log('false')
+                }
+            })
+        
         }
+
     },[])
 
-    useEffect(()=>{
-        console.log('렌더링 될때마다 실행')
-        if(isConnection.current)
-        {
-            console.log('연결성공시 실행')
-            getQuestionData()
-        }
-        else{
-            console.log('false')
-        }
-    },[])
 
 //=================================//
     /* 질문 컴포넌트 */
@@ -150,34 +134,43 @@ function Prediction()
                 </div>
             )
         }else if(question.type === '2'){ //가사
-            console.log("가사")
-            return (
-                <div className="search-flex-container">        
-                    <div className="search-input-box">
-                        <form className="input" noValidate autoComplete="off">
-                            <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-                                <TextField required id="lyrics-required" label="가사 입력"/>
-                            </Box>
-                            <Box className="search-box" display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-                                <div className="search-send-button">
-                                    <Button id='sendBtn' onClick={sendHandler} variant="outlined" color="primary">
-                                        보내기
-                                    </Button>
-                                </div>
-                                <div className="search-unknown-button">
-                                    <Button id='unknownBtn' onClick={sendHandler} variant="outlined" color="secondary">
-                                        모름
-                                    </Button>
-                                </div>
-                            </Box>
-                        </form>
+            if(question.result === 'failure'){
+                return (
+                    <div className = "songinfo-header">
+                    <div className="songinfo-header-title">
+                        <h2>예측 실패..!</h2>
                     </div>
                 </div>
-            )
+                )
+            }else{
+                return (
+                    <div className="search-flex-container">        
+                        <div className="search-input-box">
+                            <form className="input" noValidate autoComplete="off">
+                                <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                                    <TextField required id="lyrics-required" label="가사 입력"/>
+                                </Box>
+                                <Box className="search-box" display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                                    <div className="search-send-button">
+                                        <Button id='sendBtn' onClick={sendHandler} variant="outlined" color="primary">
+                                            보내기
+                                        </Button>
+                                    </div>
+                                    <div className="search-unknown-button">
+                                        <Button id='unknownBtn' onClick={sendHandler} variant="outlined" color="secondary">
+                                            모름
+                                        </Button>
+                                    </div>
+                                </Box>
+                            </form>
+                        </div>
+                    </div>
+                )
+            }
         }else if(question.type === '3'){ //결과
             return (<Redirect to= {{
                 pathname: "/Result",
-                song : question
+                song_answer_arr : question.song_answer_arr
             }}/>)
         }
     }
@@ -210,8 +203,6 @@ function Prediction()
 
     return (
         <div className='main'>
-            {console.log('question: '+ question)}
-
             <div className="search-tree-img ">
                 <img src={tree} alt =""/>
             </div>
