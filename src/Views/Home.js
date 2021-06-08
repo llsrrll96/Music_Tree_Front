@@ -19,7 +19,7 @@ function Home()
                 justify="center"
                 alignItems="center"
                 >
-                    <Link to="/prediction2">
+                    <Link to="/prediction">
                         <Button style={{maxWidth:'300px',minWidth:'300px'}} variant="outlined">
                             Start
                         </Button>

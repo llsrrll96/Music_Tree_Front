@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import tree from '../images/tree.png';
 import './Home.css';
 
-let host = "119.56.229.177" 
+let host = "192.168.230.179" 
 let endPoint = "http://"+host+":5000/prediction"
 let socket = io.connect(`${endPoint}`)
 
