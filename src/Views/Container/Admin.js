@@ -38,7 +38,7 @@ const column =[
 ]
 
 function Admin ()  {
-    const host = '192.168.230.179'
+    const host = 'loaclhost'
 
     const [songPosts, setSongPosts] = useState([])
     const [loading, setLoading] = useState(false)
