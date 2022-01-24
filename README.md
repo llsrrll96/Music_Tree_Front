@@ -1,6 +1,7 @@
 # 시작 하기
 - npm i react react-dom
-- Start Client Server : https://llsrrll96.github.io/Music_Tree_Front/#/
+- Client Page : https://llsrrll96.github.io/Music_Tree_Front/#/
+- Admin Page : https://llsrrll96.github.io/Music_Tree_Front/#/admin
 - 서버 주소 설정 : "http://localhost:5000/prediction"
 
 
